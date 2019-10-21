@@ -1,3 +1,6 @@
+#ping messages to the pi with this
+#format is python3 sendTextOverPing.py 192.168.1.107 'hello world'
+
 import sys
 import subprocess
 
