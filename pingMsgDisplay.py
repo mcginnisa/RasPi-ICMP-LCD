@@ -1,4 +1,4 @@
-
+#run this on the pi
 import I2C_LCD_driver
 import socket
 import fcntl
