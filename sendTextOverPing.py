@@ -1,10 +1,18 @@
-#!/bin/python3
-import sys, subprocess
-text = sys.argv[2]
-target = sys.argv[1]
-text = '??' + text + '??'
-if len(text)>16:
-    print("Text too long!")
+import sys
+import subprocess
+
+messageText = sys.argv[2]
+
+messageText = '??' + messageText + '??'
+
+if len(messageText)>16:
+    print("16 chars or less!")
+
     exit()
-enctext = r''.join( hex(ord(c)).split("x")[1] for c in text )
-subprocess.check_output(["ping", "-p", enctext, "-c", "1", target])
+
+messageHex = ''
+
+for char in messageText:
+    messageHex += hex(ord(char)).replace('0x', '')
+
+subprocess.call("ping" + " -p " + messageHex + " -c " "1 " + sys.argv[1], shell=True)
