@@ -7,6 +7,7 @@ import time
 import subprocess
 import traceback
 import os
+import signal
 
 #This line opens a log file
 #log = open("log.txt", "w")
@@ -52,21 +53,28 @@ for i in range(0,500): #time out after x scans
                 TCPString = myfile.read()
             if TCPString.find('????') > -1:
                 print('message detected')
+
+                message = get_txt_in_ping()
+                if message == 'aa ae' or message == 'ledon':
+                    message = 'LED On'
+                if message == 'ab ae' or message == 'ledoff':
+                    message = 'LED Off'
+
                 #time.sleep(3.1)
                 mylcd.lcd_write(0x01) # clear screen
                 #mylcd.lcd_display_string('eth0, loop ' + str(i), 1)
-                mylcd.lcd_display_string(get_txt_in_ping(), 1)
+                mylcd.lcd_display_string(message, 1)
 
                 print('rerunning sh script')
                 subprocess.call("/home/ssuee/hw4_10_21/getPingData.sh &", shell=True)
-                #tempFileModified = os.path.getmtime("/home/ssuee/temp.txt")
+                # tempFileModified = os.path.getmtime("/home/ssuee/temp.txt")
             elif TCPString.find('dead') > -1:
                 print('rerunning sh script')
                 subprocess.call("/home/ssuee/hw4_10_21/getPingData.sh &", shell=True)
-                #tempFileModified = os.path.getmtime("/home/ssuee/temp.txt")
+                # tempFileModified = os.path.getmtime("/home/ssuee/temp.txt")
             else:
                 print('message not detected')
-
+            tempFileModified = os.path.getmtime("/home/ssuee/temp.txt")
 
 
         #except Exception:
